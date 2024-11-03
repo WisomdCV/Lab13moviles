@@ -2,6 +2,7 @@ package com.example.lab13_moviles
 
 import AnimatedBoxScreen
 import ColorChangingBoxScreen
+import StatusScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -23,6 +24,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             Lab13movilesTheme {
                 var showColorChangingBox by remember { mutableStateOf(false) }
+                var showStatusScreen by remember { mutableStateOf(false) }
 
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Column(
@@ -39,12 +41,23 @@ class MainActivity : ComponentActivity() {
 
                         Spacer(modifier = Modifier.height(16.dp))
 
+                        Button(onClick = { showStatusScreen = !showStatusScreen }) { // Botón para mostrar el StatusScreen
+                            Text(text = if (showStatusScreen) "Mostrar Otras Funcionalidades" else "Mostrar Estado")
+                        }
+
+                        Spacer(modifier = Modifier.height(16.dp))
                         Spacer(modifier = Modifier.weight(1f))
-                        //condicional para las dos funcionalidades
-                        if (showColorChangingBox) {
-                            ColorChangingBoxScreen()
-                        } else {
-                            AnimatedBoxScreen()
+
+                        when {
+                            showStatusScreen -> {
+                                StatusScreen()
+                            }
+                            showColorChangingBox -> {
+                                ColorChangingBoxScreen()
+                            }
+                            else -> {
+                                AnimatedBoxScreen()
+                            }
                         }
                     }
                 }
