@@ -1,4 +1,6 @@
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
@@ -40,5 +42,30 @@ fun AnimatedBoxScreen(modifier: Modifier = Modifier) {
                     .background(Color.White)
             )
         }
+    }
+}
+
+@Composable
+fun ColorChangingBoxScreen(modifier: Modifier = Modifier) {
+    var isBlue by remember { mutableStateOf(true) }
+
+    val backgroundColor by animateColorAsState(
+        targetValue = if (isBlue) Color.Blue else Color.Green,
+        animationSpec = tween(durationMillis = 1000)
+    )
+
+    Column(
+        modifier = modifier.fillMaxSize().padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(onClick = { isBlue = !isBlue }) {
+            Text(text = "Cambiar Color")
+        }
+
+        Box(
+            modifier = Modifier
+                .size(100.dp)
+                .background(backgroundColor)
+        )
     }
 }
